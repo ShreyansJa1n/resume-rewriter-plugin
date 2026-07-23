@@ -174,6 +174,12 @@ version control, so it's safe to fork and share.
 
 ---
 
+## License
+
+MIT — see [LICENSE](LICENSE). Free to use, fork, and share.
+
+---
+
 ## For contributors
 
 Repo internals, the data flow, and how to test the DOCX engine are documented in
