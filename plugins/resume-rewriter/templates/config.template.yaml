@@ -1,0 +1,40 @@
+# Resume Rewriter — style & rules config
+# Copy this to your data dir as `config.yaml` and edit to taste.
+# Every value here has a built-in default; anything you omit falls back to the default.
+# The defaults below reproduce the original opinionated one-page style.
+
+# ── Typography / layout ──────────────────────────────────────────────
+font: Garamond          # any font installed on your machine (e.g. Calibri, Georgia, Arial)
+size: 9.5               # body font size in pt
+name_size: 14           # name header size in pt
+margins: 0.5            # inches, all four sides
+link_color: "0563C1"    # hex (no #) for hyperlink text
+
+# ── Length targets ───────────────────────────────────────────────────
+# Total-word target keeps the resume to roughly one page. The generator prints an
+# estimate and warns if you're under/over.
+word_target:
+  min: 665
+  max: 700
+fixed_word_overhead: 120   # approx words for header/edu/skills/project names (non-bullet)
+
+# Per-bullet non-space character bounds. Bullets shorter than min read as thin;
+# longer than max are hard to skim. The generator flags SHORT / LONG per bullet.
+bullet_char_min: 160
+bullet_char_max: 220
+
+# ── Output naming ────────────────────────────────────────────────────
+# {name} = your name slugged (e.g. Jane_Doe), {company} = target company,
+# {team} = "_<Team>" when a team is set, else empty.
+filename_pattern: "{name}_Resume_{company}{team}"
+cover_letter_filename_pattern: "{name}_CoverLetter_{company}"
+cover_letter_size: 10               # cover letters read better slightly larger than the resume
+output_dir: "~/Documents/Resumes/{company}"   # auto-created per company
+
+# ── Guardrails (writing rules the tailor workflow enforces) ──────────
+# Set any to false to relax it. `/tailor --anyhow` turns all of these off for one run.
+guardrails:
+  seniority_cap: true      # cap ~2 solo-ownership verbs (designed/architected/owned) per role
+  em_dash_check: true      # forbid em dashes; also mechanically checked by the generator
+  formula_variety: true    # vary 1-2 bullets/section so it doesn't read as templated
+  domain_gap_flag: true    # flag genuine content gaps instead of stretching a project to fake depth

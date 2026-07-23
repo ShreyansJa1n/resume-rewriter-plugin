@@ -1,0 +1,7 @@
+{
+  "name": "resume-rewriter",
+  "version": "0.1.0",
+  "description": "Build a personal experience/project bank once, then generate one-page, JD-tailored resume and cover letter DOCX files for any job.",
+  "author": { "name": "Shreyans Jain" },
+  "keywords": ["resume", "cover-letter", "job-search", "docx", "tailoring"]
+}

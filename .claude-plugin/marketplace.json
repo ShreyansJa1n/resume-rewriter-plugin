@@ -1,0 +1,14 @@
+{
+  "name": "resume-rewriter-marketplace",
+  "description": "JD-tailored resume and cover letter generation for Claude Code.",
+  "owner": { "name": "Shreyans Jain" },
+  "plugins": [
+    {
+      "name": "resume-rewriter",
+      "source": "./plugins/resume-rewriter",
+      "description": "Build a personal experience/project bank once, then generate one-page, JD-tailored resume and cover letter DOCX files for any job.",
+      "version": "0.1.0",
+      "author": { "name": "Shreyans Jain" }
+    }
+  ]
+}

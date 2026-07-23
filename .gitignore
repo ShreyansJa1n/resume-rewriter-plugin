@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Never commit anyone's personal resume data or generated documents
+.resume-rewriter/
+*.docx

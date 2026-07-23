@@ -1,0 +1,34 @@
+# Resume Rewriter — profile (your fixed identity + education)
+# Setup writes this for you; edit any time. This is the stable part of every resume;
+# the tailor step reuses it verbatim and only varies experience/projects/skills.
+
+name: "YOUR NAME"                    # rendered in caps at the top; used to name output files
+phone: "(555) 555-5555"
+email: "you@example.com"
+
+# Links are optional. Delete any you don't want on the resume. `text` is what shows,
+# `url` is where it points.
+linkedin:
+  text: "linkedin.com/in/yourhandle"
+  url: "https://linkedin.com/in/yourhandle"
+github:
+  text: "github.com/yourhandle"
+  url: "https://github.com/yourhandle"
+website:
+  text: "yoursite.dev"
+  url: "https://yoursite.dev"
+
+# Optional one-line work-authorization / availability note shown under the contact line.
+# Delete this key if you don't want it. Toggled per-run by the tailor step if asked.
+auth: ""
+
+education:
+  - school: "University Name, City, ST"
+    degree: "Master of Science in Computer Science"
+    detail: "GPA: 3.9"                # optional (GPA, honors); delete if unused
+    dates: "Sept 2024 - May 2026"
+    coursework: "Machine Learning, Algorithms, Distributed Systems"   # optional
+  # Add a second entry for undergrad, etc.
+  # - school: "..."
+  #   degree: "..."
+  #   dates: "..."
