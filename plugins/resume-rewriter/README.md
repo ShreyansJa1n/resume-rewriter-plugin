@@ -9,7 +9,7 @@ plugins/resume-rewriter/
 │   └── cover-letter.md            # /resume-rewriter:cover-letter <company/JD>
 ├── skills/
 │   ├── resume-setup/SKILL.md      # import + interview -> builds the user's data dir
-│   ├── resume-tailor/SKILL.md     # 6-phase JD -> tailored DOCX workflow
+│   ├── resume-tailor/SKILL.md     # 8-phase JD -> tailored DOCX workflow
 │   └── role-overlays/fde.md       # customer-facing (FDE/SE/CE) overlay, loaded by tailor
 ├── scripts/
 │   ├── generate_resume.py         # DOCX engine: --data <json> --config <yaml/json> [--out-dir]

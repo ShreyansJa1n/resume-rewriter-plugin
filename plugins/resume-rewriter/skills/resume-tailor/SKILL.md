@@ -26,7 +26,10 @@ Add other overlays from that folder if present and relevant.
 ## Phase 1 — Analyze the JD
 Extract and list: role type; must-have skills (explicitly required); nice-to-have skills;
 cultural/process signals (e.g. "ships weekly", "feature flags", "collaborative"); seniority
-signals (years, scope, ownership). These drive every choice below.
+signals (years, scope, ownership); **gaps** — must-have terms with no matching tag in either bank.
+Flag gaps now; they resurface in Phase 5's domain-gap check and Phase 8's ATS check, and they are
+never closed by inventing a claim. Carry this full signal list (including gaps) into every
+sub-agent spawned in Phases 2, 3, 4, and 8 — don't re-derive it each time.
 
 ## Phase 2 — Prioritize experience
 Order jobs most-relevant-first. For each, pick tagged bullet variants from `experience-bank.md`
@@ -46,7 +49,38 @@ experience, (3) adding a different technical dimension (don't pick two that over
 - **Spawn a sub-agent to rank projects**: hand it the JD signals, the selection criteria, and
   `project-bank.md`; it returns a ranked list noting which JD gap each project covers.
 
-## Phase 4 — Validate the bullet set
+## Phase 4 — Strengthen the selected set
+Run one rewrite pass on the bullets/projects picked in Phases 2-3, before validation. This
+replaces picking a bank variant as-is with picking the closest variant and then tightening it
+against the JD.
+
+**Hard rule, every mode:** the rewrite may rephrase, reorder, or pull in a true detail already
+written elsewhere in that same bank entry (a fuller description, an adjacent tag, a detail the
+selected variant didn't surface) — it may never introduce a tool, metric, or outcome that doesn't
+exist anywhere in `experience-bank.md` or `project-bank.md`. Closing a Phase-1 gap by inventing a
+claim is not in scope in any mode.
+
+**Spawn a rewrite sub-agent** — one pass for the selected experience bullets, one for the selected
+project bullets. Give it: the selected bullet, the full bank entry it came from (every variant and
+any surrounding detail for that tag/project), and the Phase-1 signal list.
+
+**Default mode — vocabulary alignment only.** Swap phrasing to the JD's exact terms only where the
+underlying fact already matches (bank says "message queue," JD says "Kafka," and the entry
+confirms Kafka was actually used → use "Kafka"). No new claims, no new numbers, no widened scope.
+
+**--anyhow mode — stretch pass.** Same hard rule, but combined with the `--anyhow` license below:
+pull in any true supporting detail from elsewhere in that bank entry to more directly answer a
+Phase-1 gap, lead with the JD's language even on loose matches, and reframe project purpose toward
+whatever dimension the JD weights most. This is the experiment arm — run the same JD through both
+modes and compare outcomes, since default and `--anyhow` now diverge on this rewrite step
+specifically, not just on tone.
+
+**Sanity-check the rewrite output yourself** before accepting it — a sub-agent's own "no new facts"
+self-report isn't sufficient. Watch especially for two distinct things getting blurred together
+(e.g. a local-only tool and a cloud service both folded into one "cloud" claim) — that's a subtle
+accuracy drift, not a fabrication the hard rule would necessarily catch on its own.
+
+## Phase 5 — Validate the bullet set
 Run these checks (respect the `guardrails` toggles in `config.yaml`; `--anyhow` disables all but
 length):
 1. **Length** — each bullet 160-220 non-space chars. The generator flags SHORT/LONG; expand or
@@ -59,7 +93,7 @@ length):
 5. **Domain-gap honesty** — if the JD needs depth the banks genuinely lack, flag it to the user
    rather than stretch a project to fake it.
 
-## Phase 5 — Generate
+## Phase 6 — Generate
 Write a `data.json` for this run and invoke the generator. Suggested run dir:
 `~/.resume-rewriter/runs/<Company>[_<Team>]/data.json`.
 
@@ -84,13 +118,33 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/generate_resume.py" \
 The script prints the word-count estimate + per-bullet validation and saves to the configured
 output dir. Fix any SHORT/LONG/EM-DASH flags and re-run.
 
-## Phase 6 — Space check & backfill
+## Phase 7 — Space check & backfill
 Read the printed word-count estimate against `word_target`.
 - If **below min**: spawn a sub-agent for a single backfill recommendation — give it the current
   counts, the JD signals, what's already covered, and unused bank items; it returns ONE bullet or
   project (exact text, which role/section, JD justification, word contribution). Add it, re-run.
 - If **within/above target**: done. If above max, trim the weakest experience bullet (never an
   always-include anchor) and re-run.
+
+## Phase 8 — ATS keyword check
+Final gate, run after Phase 7, before handing the file off.
+
+**Spawn an ATS-simulation sub-agent.** Give it: the fully assembled resume text (every bullet, the
+skills line, project stacks) and the Phase-1 signal list (must-haves + nice-to-haves + gaps). It
+returns:
+- Which must-have terms appear verbatim or as a close synonym somewhere in the resume
+- Which must-have terms are missing entirely
+- Which nice-to-haves are covered
+
+**If a must-have is missing but the underlying fact is true somewhere in the banks:** fix it with a
+Phase-4-style vocabulary swap on an existing bullet or the skills line — not a new bullet, not a
+claim that wasn't already selected.
+
+**If a must-have has no truthful home anywhere in the resume:** this is the same case as Phase 5's
+domain-gap check — it should already be flagged from Phase 1. Leave it flagged; don't force it in
+here just because the ATS check surfaced it again. If the user then supplies a new true fact that
+closes the gap (e.g. "I actually did collaborate with PMs on that feature"), add it to the relevant
+bank entry first — so it's available for future JDs too — then apply it to this resume.
 
 ## Finish
 - Tell the user the output path.
@@ -103,4 +157,5 @@ Run all phases but drop every guardrail except formatting and bullet length: no 
 domain-gap flag (draw the parallel instead); lead with the JD's exact keywords; pick the most
 impressive true framing of every metric; reframe projects to foreground what the JD wants; stack
 every matching bullet up to the one-page limit. Never fabricate outright — reframe only what's in
-the banks.
+the banks. Phase 4 runs in stretch mode (see above) rather than vocabulary-alignment-only — the
+hard anti-fabrication rule still applies regardless of mode.
