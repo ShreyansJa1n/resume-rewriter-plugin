@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "resume-rewriter-marketplace": {
+      "source": {
+        "source": "directory",
+        "path": "."
+      }
+    }
+  },
+  "enabledPlugins": {
+    "resume-rewriter@resume-rewriter-marketplace": true
+  }
+}
